@@ -1,20 +1,20 @@
-pipeline {
+pipeline{
     agent any
     stages{
-        stage('Clone my Repo from git'){
+        stage('clone git repo'){
             steps{
-                echo "Clone my devops repo:"
-                git branch: 'master', url: 'https://github.com/sagar-unix/devopseng.git'
+                git branch: 'main', url: 'https://github.com/er-arun/Dev-Final-Pro'
             }
         }
-
-        stage('Execute the playbook: Webservers'){
+        stage('executing the ansible playbook for slave1'){
             steps{
-                echo "Executing the playbook: Webservers"
-                ansiblePlaybook colorized: true, credentialsId: 'slave1', disableHostKeyChecking: true, installation: 'myansible', inventory: 'dev.inv', playbook: 'devops_playbook.yml'
+              ansiblePlaybook credentialsId: 'AnsSlave1', disableHostKeyChecking: true, installation: '/usr/bin', inventory: 'dev.inv', playbook: 'devops_playbook.yml'  
             }
-
+        }
+        stage('executing the ansible playbook for slave2'){
+            steps{
+                ansiblePlaybook credentialsId: 'ansslave2', disableHostKeyChecking: true, installation: '/usr/bin', inventory: 'dev.inv', playbook: 'devops_playbook.yml'
+            }
         }
     }
-
 }
